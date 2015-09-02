@@ -14,7 +14,7 @@ module ActiveRecord
             cart_item.save
             cart_item
           else
-            shopping_cart_items.create(item: object, price: price, quantity: quantity)
+            shopping_cart_items.create(line_item: object, price: price, quantity: quantity)
           end
         end
 

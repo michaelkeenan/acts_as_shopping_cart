@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../../spec_helper')
 
-describe ActiveRecord::Acts::ShoppingCart::Item do
+describe ActiveRecord::Acts::ShoppingCart::LineItem do
   let(:klass) do
     klass = Class.new
-    klass.send :include, ActiveRecord::Acts::ShoppingCart::Item
+    klass.send :include, ActiveRecord::Acts::ShoppingCart::LineItem
     klass
   end
 
@@ -16,12 +16,12 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
   end
 
   let(:object) { stub(:id => 1) }
-  let(:item)   { stub(:subtotal => 47.98, :price => 23.99, :quantity => 2, :save => true)}
+  let(:line_item)   { stub(:subtotal => 47.98, :price => 23.99, :quantity => 2, :save => true)}
 
   describe :item_for do
     context "no cart item exists for the object" do
       before do
-        shopping_cart_items.should_receive(:where).with(:item => object).and_return([])
+        shopping_cart_items.should_receive(:where).with(:line_item => object).and_return([])
       end
 
       it "returns the shopping cart item object for the requested object" do
@@ -31,11 +31,11 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
 
     context "a cart item exists for the object" do
       before do
-        shopping_cart_items.should_receive(:where).with(:item => object).and_return([ item ])
+        shopping_cart_items.should_receive(:where).with(:line_item => object).and_return([ line_item ])
       end
 
       it "returns that item" do
-        subject.item_for(object).should be(item)
+        subject.item_for(object).should be(line_item)
       end
     end
   end
@@ -53,7 +53,7 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
 
     context "the cart item exists for the object" do
       before do
-        subject.should_receive(:item_for).with(object).and_return(item)
+        subject.should_receive(:item_for).with(object).and_return(line_item)
       end
 
       it "returns the subtotal for the item" do
@@ -75,7 +75,7 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
 
     context "the cart item exists for the object" do
       before do
-        subject.should_receive(:item_for).with(object).and_return(item)
+        subject.should_receive(:item_for).with(object).and_return(line_item)
       end
 
       it "returns the quantity for the object" do
@@ -87,11 +87,11 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
   describe :update_quantity_for do
     context "the cart item exists for the object" do
       before do
-        subject.should_receive(:item_for).with(object).and_return(item)
+        subject.should_receive(:item_for).with(object).and_return(line_item)
       end
 
       it "updates the item quantity to the specified quantity" do
-        item.should_receive(:update_quantity).with(3)
+        line_item.should_receive(:update_quantity).with(3)
         subject.update_quantity_for(object, 3)
       end
     end
@@ -110,7 +110,7 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
 
     context "the cart item exists for the object" do
       before do
-        subject.should_receive(:item_for).with(object).and_return(item)
+        subject.should_receive(:item_for).with(object).and_return(line_item)
       end
 
       it "returns the price of the item" do
@@ -122,11 +122,11 @@ describe ActiveRecord::Acts::ShoppingCart::Item do
   describe :update_price_for do
     context "the cart item exists for the object" do
       before do
-        subject.should_receive(:item_for).with(object).and_return(item)
+        subject.should_receive(:item_for).with(object).and_return(line_item)
       end
 
       it "updates the price on the item" do
-        item.should_receive(:update_price).with(99.99)
+        line_item.should_receive(:update_price).with(99.99)
         subject.update_price_for(object, 99.99)
       end
     end

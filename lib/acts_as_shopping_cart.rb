@@ -9,7 +9,7 @@ module ActiveRecord
   module Acts
     module ShoppingCart
       autoload :Collection , 'active_record/acts/shopping_cart/collection'
-      autoload :Item       , 'active_record/acts/shopping_cart/item'
+      autoload :LineItem       , 'active_record/acts/shopping_cart/line_item'
     end
 
     module ShoppingCartItem

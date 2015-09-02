@@ -1,13 +1,13 @@
 module ActiveRecord
   module Acts
     module ShoppingCart
-      module Item
+      module LineItem
 
         #
         # Returns the cart item for the specified object
         #
         def item_for(object)
-          shopping_cart_items.where(:item => object).first
+          shopping_cart_items.where(:line_item => object).first
         end
 
         #

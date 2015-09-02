@@ -19,7 +19,7 @@ module ActiveRecord
         def acts_as_shopping_cart_item_for(cart_class)
           self.send :include, ActiveRecord::Acts::ShoppingCartItem::InstanceMethods
           belongs_to :owner, :polymorphic => true
-          belongs_to :item, :polymorphic => true
+          belongs_to :line_item, :polymorphic => true
           monetize :price_cents
         end
 
