@@ -26,23 +26,34 @@ module ActiveRecord
         end
 
         #
+        # Returns true when the cart has items
+        #
+        def items?
+          shopping_cart_items.any?
+        end
+        alias has_items? items?
+
+        #
         # Returns true when the cart is empty
         #
-        def empty?
+        def no_items?
           shopping_cart_items.empty?
         end
+        alias has_no_items? no_items?
 
         #
         # Remove an item from the cart
         #
         def remove(object, quantity = 1)
-          if cart_item = item_for(object)
-            if cart_item.quantity <= quantity
-              cart_item.delete
-            else
-              cart_item.quantity = (cart_item.quantity - quantity)
-              cart_item.save
-            end
+          cart_item = item_for(object)
+          
+          return unless cart_item
+          
+          if cart_item.quantity <= quantity
+            cart_item.delete
+          else
+            cart_item.quantity = (cart_item.quantity - quantity)
+            cart_item.save
           end
         end
 
